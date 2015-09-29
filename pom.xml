@@ -1,0 +1,151 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.bloomreach</groupId>
+    <artifactId>zk-replicate</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>ZK Replicator</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.3.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.jmx</groupId>
+                    <artifactId>jmxri</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jdmk</groupId>
+                    <artifactId>jmxtools</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.jms</groupId>
+                    <artifactId>jms</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Used but undeclared dependencies -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.2</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.github.rholder</groupId>
+            <artifactId>guava-retrying</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase></phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <classpathScope>compile</classpathScope>
+                    <arguments>
+                        <argument>-classpath</argument>
+                        <classpath />
+                    </arguments>
+                    <workingDirectory>runs</workingDirectory>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>shade</id>
+            <activation>
+                <property>
+                    <name>env.shade</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>1.6</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <finalName>uber-${project.artifactId}-final</finalName>
+                        <transformers>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer">
+                            </transformer>
+                        </transformers>
+                        <filters>
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
+                                </excludes>
+                            </filter>
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>org/apache/hadoop/net/**</exclude>
+                                    <exclude>org/apache/hadoop/record/**</exclude>
+                                    <exclude>org/apache/hadoop/metrics2/**</exclude>
+                                    <exclude>org/apache/hadoop/metrics/**</exclude>
+                                    <exclude>org/apache/hadoop/fs/**</exclude>
+                                    <exclude>org/apache/hadoop/io/**</exclude>
+                                    <exclude>org/apache/hadoop/ha/**</exclude>
+                                    <exclude>org/apache/hadoop/util/**</exclude>
+                                    <exclude>org/apache/hadoop/log/**</exclude>
+                                    <exclude>org/apache/hadoop/tools/**</exclude>
+                                    <exclude>org/apache/hadoop/jmx/**</exclude>
+                                    <exclude>org/apache/hadoop/ipc/**</exclude>
+                                    <exclude>org/apache/hadoop/hdfs/**</exclude>
+                                    <exlude>org/apache/hadoop/mapreduce/**</exlude>
+                                    <exclude>org/apache/hadoop/mapred/**</exclude>
+                                    <exclude>org/apache/hadoop/ipc/**</exclude>
+                                    <exclude>org/apache/hadoop/filecache/**</exclude>
+                                    <exclude>org/apache/hadoop/conf/**</exclude>
+                                </excludes>
+                            </filter>
+                        </filters>
+
+                        <!-- Additional configuration. -->
+                    </configuration>
+                </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
