@@ -14,7 +14,6 @@ It has been tested with zookeeper 3.3.1.
 # Running an existing Zk Replicator Example
   - This assumes [zk ensemble] runs at 2181.
 
-
   - This example takes a source zk (from an ensemble) and destination zk host (from another ensemble) as parameter
     and clones all the data from source to destination.
 
