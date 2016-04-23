@@ -27,7 +27,8 @@ It has been tested with zookeeper 3.3.1.
 ```
 
 # Contributors
- - Nitin Sharma (nitin.sharma@bloomreach.com) (nitinssn at g-mail.com)
+ - Nitin Sharma (nitin.sharma@bloomreach.com)
+   (nitinssn at g-mail.com)
 
 
 # License
