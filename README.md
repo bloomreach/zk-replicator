@@ -2,9 +2,6 @@
 
 ZK Replicator is a zookeeper Data Backup Library for [Zookeeper]. The library provides on-demand replication of data across Zookeeper Clusters.
 
-It has been tested with zookeeper 3.3.1.
-
-
 # Building with Tests using Maven
 ```sh
  cd zk-replicator/
